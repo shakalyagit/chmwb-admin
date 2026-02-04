@@ -1,0 +1,418 @@
+ :root {
+     --low: #8bc34a;
+     --moderate: #ffeb3b;
+     --high: #ff9800;
+     --extreme: #f44336;
+     --grid: #ddd;
+     --text: #222;
+ }
+
+ .complaint_edit_btn a:hover {
+     background-color: unset !important;
+ }
+
+ /* Input type file  */
+ .file-preview {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 10px;
+ }
+
+ .file-preview img {
+     max-width: 100px;
+     max-height: 100px;
+ }
+
+ .file-preview .file-container {
+     position: relative;
+ }
+
+ .file-preview .file-container button {
+     position: absolute;
+     top: 20px;
+     right: 0;
+     background: white;
+     color: #ff1100;
+     border: none;
+     border-radius: 50%;
+     width: 25px;
+     height: 25px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+ }
+
+ .edit_complaint_file {
+     background: white;
+     color: #ff1100;
+     border: none;
+     border-radius: 50%;
+     width: 25px;
+     height: 25px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+ }
+
+ .upload-area {
+     border: 2px dashed #748194;
+     border-radius: 5px;
+     padding: 20px;
+     text-align: center;
+     cursor: pointer;
+ }
+
+ .upload-area:hover {
+     background-color: #f0f0f0;
+ }
+
+ .main .bg-white {
+     background-color: rgb(243 244 246) !important;
+ }
+
+ .main .card {
+     /* --falcon-card-bg: var(--falcon-emphasis-bg);
+	-webkit-box-shadow: var(--falcon-box-shadow);
+	box-shadow: var(--falcon-box-shadow); */
+
+     --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);
+     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+ }
+
+ .main .card p {
+     font-size: 14px;
+     text-align: left;
+ }
+
+ .form-group>label {
+     display: inline-block;
+     margin-bottom: .5rem;
+     font-weight: 500;
+     /* color: #01013e !important; */
+ }
+
+ .form-group .form-control,
+ .form-group .form-select {
+     display: block;
+     width: 100%;
+     height: calc(2.25rem + 2px);
+     padding: .375rem .75rem;
+     font-size: 13px;
+     font-weight: 400;
+     line-height: 1.5;
+     color: #93989d !important;
+     background-color: #fff;
+     background-clip: padding-box;
+     border: 1px solid #ced4da !important;
+     border-radius: .25rem !important;
+     box-shadow: inset 0 0 0 transparent;
+     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+ }
+
+ .card-header {
+     padding: 10px;
+ }
+
+ .card-header h5 {
+     padding: 0;
+     margin: 0;
+     font-size: 16px;
+ }
+
+ .pull-left {
+     float: left;
+ }
+
+ .pull-right {
+     float: right;
+ }
+
+ .clear {
+     font-size: 0px;
+     line-height: 0px;
+     clear: both;
+ }
+
+ .content-header {
+     padding: 30px 0 15px 0;
+     margin: 0;
+ }
+
+ .content-header h5 {
+     padding: 10px 0 0 0;
+     margin: 0;
+ }
+
+ .navbar-vertical.navbar-expand-xl+.content .navbar-top {
+     background: #fff;
+     border-bottom: 1px solid #ccc;
+ }
+
+ .navbar-vertical.navbar-expand-xl .navbar-collapse {
+     background: #ffffff;
+     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+     margin: 10px auto;
+ }
+
+ .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .navbar-vertical-label {
+     color: #01013e;
+ }
+
+ .navbar-vertical.navbar-vibrant .navbar-vertical-divider {
+     color: #01013e;
+ }
+
+ .navbar-vertical.navbar-vibrant .navbar-nav .nav-item .nav-link {
+     color: #01013e;
+ }
+
+ .navbar .logo_nav {
+     background: #fff;
+     border-bottom: 1px solid #ccc;
+ }
+
+ .navbar .logo_nav .navbar-brand {
+     padding: 15px 0;
+ }
+
+ .sticky-sidebar .card h6 {
+     font-size: 15px !important;
+     font-weight: 600;
+     color: #01013e;
+ }
+
+ .btn {
+     font-weight: 500 !important;
+     font-size: 1rem !important;
+     font-family: inherit !important;
+     line-height: inherit !important;
+     border-radius: 6px !important;
+ }
+
+ .button1 {
+     background: #06069d;
+     color: #fff;
+ }
+
+ .button1:hover {
+     background: #04043b;
+     color: #fff;
+ }
+
+ .scrollbar ul {
+     padding: 0;
+     margin: 0;
+ }
+
+ .scrollbar ul li {
+     padding: 5px 0;
+     margin: 0;
+ }
+
+ .scrollbar ul li a {
+     padding: 5px 7px !important;
+     margin: 0;
+ }
+
+.scrollbar ul li a.active {
+    padding: 5px 7px !important;
+    margin: 0;
+    background: #e0e8f2;
+    color: #57616e !important;
+    border-radius: 9px;
+}
+
+ .custom_badge {
+     display: inline-block;
+     padding: 5px 5px;
+     font-size: 12px;
+     line-height: 1;
+     border-radius: 10rem;
+     width: 80px;
+     text-align: center;
+     border: 1px solid;
+     font-weight: 500;
+
+ }
+
+ .low_badge {
+     background: #8bc34a;
+     border-color: #64921d;
+     color: #22360a;
+ }
+
+ .average_badge {
+     background: #ffeb3b;
+     border-color: #cbbb00;
+     color: #585100;
+ }
+
+ .moderate_badge {
+     background: #ff9800;
+     border-color: #cb7d03;
+     color: #4a2d00;
+ }
+
+ .high_badge {
+     background: #f44336;
+     border-color: #bd1403;
+     color: #ffffff;
+ }
+
+ .pagination-wrapper {
+     padding: 5px 15px !important;
+ }
+
+ .page-link {
+     padding: 5px 12px !important;
+ }
+
+ /* Card skeleton loader Start */
+ .pulsate {
+     /* background: linear-gradient(-45deg, #DDDDDD, #F0F0F0, #DDDDDD, #F0F0F0); */
+     background: linear-gradient(-90deg, #DDDDDD, #F0F0F0, #DDDDDD, #F0F0F0);
+     background-size: 400% 400%;
+     -webkit-animation: Gradient 2.25s ease infinite;
+     -moz-animation: Gradient 2.25s ease infinite;
+     animation: Gradient 2.25s ease infinite;
+     border-radius: 8px;
+ }
+
+ /* Animation Keyframes */
+ @keyframes Gradient {
+     0% {
+         background-position: 0% 50%;
+     }
+
+     50% {
+         background-position: 100% 50%;
+     }
+
+     100% {
+         background-position: 0% 50%;
+     }
+ }
+
+/* Card skeleton loader End */
+.no_record_found {
+    font-size: 30px !important;
+    font-weight: 500;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #dddddd;
+}
+.offcanvas-body {
+    position: relative;
+}
+.apply-button {
+    position: fixed;
+    right: 50px;
+    top: 15px;
+}
+.comment-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    padding: 15px;
+}
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    overflow-y: auto;
+}
+.comment {
+    padding: 15px;
+}
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.comment-author-info {
+    display: flex;
+    flex-direction: column;
+}
+.comment-author {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+.comment-date {
+    font-size: 12px;
+    color: #888;
+}
+.comment-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+.card .card-header h6 {
+    padding: 0;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+}
+.card .card-body h6 {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+}
+.card .card-body p {
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+.profile_box {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+}
+.icon_box {
+    padding: 0;
+    margin: 0 15px 0 0;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    float: left;
+    border-radius: 50%;
+    border: 2px solid #999;
+}
+.icon_box img {
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+
+    border-radius: 50%;
+}
+.comment-text-box {
+    padding: 15px;
+    margin: 0 auto 15px;
+    background: #e7e9eb;
+    border-radius: 5px;
+}
+.comment-text-box p {
+    padding: 0;
+    margin: 0 auto 0;
+
+}
+.comment-author-info-box {
+    padding: 0;
+    margin: 0 auto;
+    width: 95%;
+    border-bottom: 1px solid #dddddd;
+}
