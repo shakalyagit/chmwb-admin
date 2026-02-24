@@ -39,4 +39,5 @@ class SamplePractitionerExcel implements FromArray, WithHeadings, WithStyles
             1 => ['font' => ['bold' => true]], 
         ];
     }
+    
 }
