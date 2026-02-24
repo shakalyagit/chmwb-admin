@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MedicianeMst;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -46,6 +47,11 @@ Route::group(["middleware" => 'auth'], function(){
 
     Route::get('application_data', [ApplicationDataController::class, 'application_data'])->name('application_data');
     Route::get('showFormDetails/{id}', [ApplicationDataController::class, 'showFormDetails'])->name('showFormDetails');
+
+    Route::get('practitioners_list', [PractitionerController::class, 'practitioners_list'])->name('practitioners_list');
+    Route::get('add_practitioner', [PractitionerController::class, 'add_practitioner'])->name('add_practitioner');
+    Route::get('download_sample_excel', [PractitionerController::class, 'download_sample_excel'])->name('download_sample_excel');
+    Route::post('upload_practitioner_excel', [PractitionerController::class, 'upload_practitioner_excel'])->name('upload_practitioner_excel');
 });
 
 Route::group(['middleware' => 'guest'], function () {
