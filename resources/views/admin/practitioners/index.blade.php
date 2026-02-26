@@ -1,16 +1,10 @@
 @extends('admin.layouts.main')
 @section('content')
 <x-flash-message />
-@if(session('failures'))
-<div class="card">
-    <div class="card-header">
-        <h5>Skipped Rows:</h5>
-    </div>
-    <ul>
-        @foreach(session('failures') as $failure)
-        <li class="text-danger">Row {{ $failure->row() }}: {{ implode(', ', $failure->errors()) }}</li>
-        @endforeach
-    </ul>
+@if($errors->has('practitioner_file'))
+<div class="alert alert-danger border border-danger alert-dismissible fade show mt-3" role="alert">
+    {{ $errors->first('practitioner_file') }}
+    <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
 <div class="card mt-3">
@@ -59,13 +53,10 @@
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-2">
-                                <button wire:click="edit({{ $practitioner->id }})"
+                                <a href="{{route('edit_practitioner', Crypt::encrypt($practitioner->id))}}"
                                     class="btn btn-outline-danger">
                                     <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button class="btn btn-outline-primary">
-                                    <i class="bi bi-key"></i>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>

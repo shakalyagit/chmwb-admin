@@ -35,7 +35,7 @@ Route::get('portfolio/{slug}', [HomeController::class, 'portfolio_details'])->na
 Route::get('generate_certificate/{id}', [HomeController::class, 'generate_certificate'])->name('generate_certificate');
 Route::get('generate_certificate_2/{id}', [HomeController::class, 'generate_certificate_2'])->name('generate_certificate_2');
 
-Route::group(["middleware" => 'auth'], function(){
+Route::group(["middleware" => 'auth'], function () {
     Route::get('change_password', [AdminAuthController::class, 'change_password'])->name('change_password');
     Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
     Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('dashboard');
@@ -50,8 +50,12 @@ Route::group(["middleware" => 'auth'], function(){
 
     Route::get('practitioners_list', [PractitionerController::class, 'practitioners_list'])->name('practitioners_list');
     Route::get('add_practitioner', [PractitionerController::class, 'add_practitioner'])->name('add_practitioner');
+    Route::post('add_practitioner_action', [PractitionerController::class, 'add_practitioner_action'])->name('add_practitioner_action');
     Route::get('download_sample_excel', [PractitionerController::class, 'download_sample_excel'])->name('download_sample_excel');
     Route::post('upload_practitioner_excel', [PractitionerController::class, 'upload_practitioner_excel'])->name('upload_practitioner_excel');
+    Route::get('edit_practitioner/{id}', [PractitionerController::class, 'edit_practitioner'])->name('edit_practitioner');
+    Route::post('update_practitioner/{id}', [PractitionerController::class, 'update_practitioner'])->name('update_practitioner');
+    Route::get('/get-districts/{sid}', [PractitionerController::class, 'get_districts'])->name('get_districts');
 });
 
 Route::group(['middleware' => 'guest'], function () {
