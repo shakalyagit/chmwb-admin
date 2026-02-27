@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 @section('content')
 <div class="content-header">
-    <h5 class="pull-left">Edit user</h5>
+    <h5 class="pull-left">Edit practitioner</h5>
     <div class="ms-auto pull-right">
         <a href="{{route('practitioners_list')}}" class="btn btn btn-outline-primary">
             <i class="bi bi-arrow-left"></i> Back

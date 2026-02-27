@@ -10,7 +10,7 @@
 <div class="card mt-3">
     <div class="card-header">
         <div class="ms-auto pull-left">
-            <h5 class="pull-left">Users</h5>
+            <h5 class="pull-left">Practitioners</h5>
         </div>
         <div class="ms-auto pull-right">
             <a href="{{route('download_sample_excel')}}" class="btn btn btn-outline-primary">
