@@ -40,15 +40,7 @@
     <div class="row g-0 justify-content-between fs-10 mt-4 mb-3">
         <div class="col-12 col-sm-auto text-center">
             <p class="mb-0 text-600">Developed By <span class="d-none d-sm-inline-block">
-                </span><a href="https://krditsolution.com/" target="_blank">KRD IT Solution</a></p>
-        </div>
-        <div class="col-12 col-sm-auto text-center">
-            <p class="mb-0 text-600">
-                <span class="d-none d-sm-inline-block">
-                </span><br class="d-sm-none" />&copy; {{ date('Y') }}
-                <a href="https://drbooking.in/" target="_blank"> DrBooking
-                </a>
-            </p>
+                </span><a href="javascript:void(0);" target="_blank">Council of Homoeopathic Medicine, West Bengal</a></p>
         </div>
     </div>
 </footer>

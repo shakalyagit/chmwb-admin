@@ -56,6 +56,9 @@ Route::group(["middleware" => 'auth'], function () {
     Route::get('edit_practitioner/{id}', [PractitionerController::class, 'edit_practitioner'])->name('edit_practitioner');
     Route::post('update_practitioner/{id}', [PractitionerController::class, 'update_practitioner'])->name('update_practitioner');
     Route::get('/get-districts/{sid}', [PractitionerController::class, 'get_districts'])->name('get_districts');
+    Route::get('/practitioners/filter', [PractitionerController::class, 'practitioner_filter'])->name('practitioner_filter');
+
+    Route::get('/export-practitioners', [PractitionerController::class, 'export_practitioners'])->name('export_practitioners');
 });
 
 Route::group(['middleware' => 'guest'], function () {
