@@ -32,7 +32,6 @@ class PractitionersImport implements
         'email_id',
         'qualification',
         'part',
-        'status',
     ];
 
     public function model(array $row)
@@ -61,7 +60,6 @@ class PractitionersImport implements
                 'email_id'        => $row['email_id'] ?? null,
                 'qualification'   => $row['qualification'] ?? null,
                 'part'            => $row['part'] ?? null,
-                'status'          => $row['status'] ?? null,
             ]
         );
     }

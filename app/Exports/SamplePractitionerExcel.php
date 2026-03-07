@@ -29,7 +29,6 @@ class SamplePractitionerExcel implements FromArray, WithHeadings, WithStyles
             'Email Id',
             'Qualification',
             'Part',
-            'Status',
         ];
     }
 

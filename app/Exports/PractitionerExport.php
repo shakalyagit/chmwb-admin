@@ -38,10 +38,6 @@ class PractitionerExport implements FromCollection, WithHeadings, WithStyles
             $query->where('ph_no', 'like', '%' . $this->request->phone . '%');
         }
 
-        if (!empty($this->request->status)) {
-            $query->where('status', $this->request->status);
-        }
-
         return $query->get([
             'registration_no',
             'registration_date',
@@ -55,7 +51,6 @@ class PractitionerExport implements FromCollection, WithHeadings, WithStyles
             'email_id',
             'qualification',
             'part',
-            'status'
         ]);
     }
 
@@ -74,7 +69,6 @@ class PractitionerExport implements FromCollection, WithHeadings, WithStyles
             'Email',
             'Qualification',
             'Part',
-            'Status'
         ];
     }
 
