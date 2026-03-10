@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <label class="form-label">Email</label>
                         <input type="email" class="form-control" value="{{old('email_id')}}" name="email_id" id="email_id">
                     </div>
                     @error('email_id')
@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Phone <span class="text-danger">*</span></label>
+                        <label class="form-label">Phone</label>
                         <input type="number" class="form-control" value="{{old('ph_no')}}" name="ph_no" id="ph_no">
                     </div>
                     @error('ph_no')
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Part <span class="text-danger">*</span></label>
+                        <label class="form-label">Part</label>
                         <input type="text" class="form-control" value="{{old('part')}}" name="part" id="part">
                     </div>
                     @error('part')
@@ -104,7 +104,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">State <span class="text-danger">*</span></label>
+                        <label class="form-label">State</label>
                         <select name="state" id="state" class="form-select">
                             <option value="">Select State</option>
                             @foreach($states as $state)
@@ -121,7 +121,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">District <span class="text-danger">*</span></label>
+                        <label class="form-label">District</label>
                         <select name="district" id="district" class="form-select">
                             <option value="">Select District</option>
                         </select>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="form-label">Pincode <span class="text-danger">*</span></label>
+                        <label class="form-label">Pincode</label>
                         <input type="text" class="form-control" value="{{old('pincode')}}" name="pincode" id="pincode">
                     </div>
                     @error('pincode')

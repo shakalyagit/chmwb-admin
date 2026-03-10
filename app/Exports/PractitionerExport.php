@@ -38,7 +38,11 @@ class PractitionerExport implements FromCollection, WithHeadings, WithStyles
             $query->where('ph_no', 'like', '%' . $this->request->phone . '%');
         }
 
-        return $query->get([
+        if (!empty($this->request->status)) {
+            $query->where('status', $this->request->status);
+        }
+
+        return $query->limit(5000)->get([
             'registration_no',
             'registration_date',
             'name',

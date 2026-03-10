@@ -42,13 +42,7 @@ class PractitionerController extends Controller
             'name'              => 'required|string|max:255',
             'fathers_name'      => 'required|string|max:255',
             'address'           => 'required|string',
-            'state'             => 'required|string',
-            'district'          => 'required|string',
-            'pincode'           => 'required|digits_between:5,6',
-            'ph_no'             => 'required|digits_between:10,12',
-            'email_id'          => 'required|email',
             'qualification'     => 'required|string|max:255',
-            'part'              => 'required|string|max:50',
         ]);
 
         $practitioner = new Practioner();
@@ -105,18 +99,12 @@ class PractitionerController extends Controller
     public function update_practitioner(Request $request, $id)
     {
         $request->validate([
+            'registration_no' => 'required',
             'registration_date' => 'required|date',
             'name'              => 'required|string',
             'fathers_name'      => 'required|string',
             'address'           => 'required|string',
-            'state'             => 'required',
-            'district'          => 'required',
-            'pincode'           => 'required',
-            'ph_no'             => 'required',
-            'email_id'          => 'required|email',
             'qualification'     => 'required',
-            'part'              => 'required',
-            'status'            => 'required',
         ]);
 
         $practitioner = Practioner::findOrFail(Crypt::decrypt($id));
@@ -136,8 +124,11 @@ class PractitionerController extends Controller
             $query->where('registration_no', 'like', '%' . $request->reg_no . '%');
         }
 
-        if ($request->filled('to_date')) {
-            $query->whereDate('registration_date', $request->to_date);
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('registration_date', [
+                $request->from_date,
+                $request->to_date
+            ]);
         }
 
         if ($request->filled('name')) {

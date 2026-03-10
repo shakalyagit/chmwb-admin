@@ -17,10 +17,22 @@
                     <input type="text" name="reg_no" class="form-control">
                 </div>
             </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <label class="form-label">Registration Date</label>
-                    <input type="date" name="to_date" class="form-control">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Reg. from Date</label>
+                            <input type="date" name="from_date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Reg. to Date</label>
+                            <input type="date" name="to_date" class="form-control">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="mb-3">

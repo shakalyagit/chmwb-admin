@@ -31,9 +31,11 @@
             <h5 class="pull-left">Practitioners List</h5>
         </div>
         <div class="ms-auto pull-right">
+            @if(auth()->user()->name == 'Admin')
             <button type="button" id="exportBtn" class="btn btn-outline-primary">
-                <i class="bi bi-download"></i> Export
+                <i class="bi bi-download"></i> Export to Excel
             </button>
+            @endif
         </div>
         <div class="clear"></div>
     </div>
@@ -80,7 +82,9 @@
                     @endif
                 </tbody>
             </table>
-            <div id="pagination_links"></div>
+            <div id="pagination_links" class="px-2">
+                {{ $practitioners->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div>
 </div>
