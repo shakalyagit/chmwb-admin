@@ -7,6 +7,7 @@ use App\Http\Controllers\CMSController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MedicianeMst;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\ProjectController;
@@ -59,6 +60,14 @@ Route::group(["middleware" => 'auth'], function () {
     Route::get('/practitioners/filter', [PractitionerController::class, 'practitioner_filter'])->name('practitioner_filter');
 
     Route::get('/export-practitioners', [PractitionerController::class, 'export_practitioners'])->name('export_practitioners');
+
+    //Notice route
+    Route::get('/notice_list', [NoticeController::class, 'notice_list'])->name('notice_list');
+    Route::get('/add_notice', [NoticeController::class, 'add_notice'])->name('add_notice');
+    Route::post('/add_notice_action', [NoticeController::class, 'add_notice_action'])->name('add_notice_action');
+    Route::get('/edit-notice/{id}', [NoticeController::class, 'edit_notice'])->name('edit_notice');
+    Route::post('/update-notice', [NoticeController::class, 'update_notice'])->name('update_notice');
+    Route::post('/notice-filter', [NoticeController::class, 'notice_filter'])->name('notice_filter');
 });
 
 Route::group(['middleware' => 'guest'], function () {

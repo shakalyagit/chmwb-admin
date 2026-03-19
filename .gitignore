@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 /html
 /storage
+/public/assets/notices
