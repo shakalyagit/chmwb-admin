@@ -68,6 +68,7 @@ Route::group(["middleware" => 'auth'], function () {
     Route::get('/edit-notice/{id}', [NoticeController::class, 'edit_notice'])->name('edit_notice');
     Route::post('/update-notice', [NoticeController::class, 'update_notice'])->name('update_notice');
     Route::post('/notice-filter', [NoticeController::class, 'notice_filter'])->name('notice_filter');
+    Route::get('/notice-file-delete/{id}', [NoticeController::class, 'notice_file_delete'])->name('notice_file_delete');
 });
 
 Route::group(['middleware' => 'guest'], function () {

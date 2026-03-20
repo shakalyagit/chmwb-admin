@@ -28,7 +28,6 @@
                         <th class="text-900 sort text-nowrap">ID</th>
                         <th class="text-900 sort text-nowrap">Notice Type</th>
                         <th class="text-900 sort text-nowrap">Notice Subject</th>
-                        <th class="text-900 sort text-nowrap">Doc Link</th>
                         <th class="text-900 sort text-nowrap">Publish Date Time</th>
                         <th class="text-900 sort text-nowrap">Status</th>
                         <th class="text-900 sort text-nowrap">Action</th>
@@ -41,12 +40,7 @@
                         <td>{{ $notice->id }}</td>
                         <td>{{ $notice->notice_type }}</td>
                         <td>{{ $notice->notice_subject }}</td>
-                        <td>
-                            <a href="{{$notice->file_path}}" target="_blank">
-                                <i class="bi bi-file-earmark-arrow-down fs-8"></i>
-                            </a>
-                        </td>
-                        <td>{{ $notice->publish_date_time }}</td>
+                        <td>{{ date('d-m-Y', strtotime($notice->publish_date_time)) }}</td>
                         <td>
                             <x-badge-pill :label="$notice->status" :status_type="$notice->status === 'Publish' ? 'success' : 'danger'" />
                         </td>
@@ -62,7 +56,7 @@
                     @endforeach
                     @else
                     <tr>
-                        <td colspan="7" class="text-center">No record Found</td>
+                        <td colspan="6" class="text-center">No record Found</td>
                     </tr>
                     @endif
                 </tbody>
