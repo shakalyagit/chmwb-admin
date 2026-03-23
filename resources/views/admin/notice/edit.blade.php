@@ -86,12 +86,12 @@
                                 $is_image = in_array($extension, ['jpg', 'jpeg', 'png']);
 
                                 $icon = $is_image
-                                ? env('FILE_PATH') . $file->file_path
-                                : 'assets/img/generic/image-file-2.png';
+                                ? env('MEDIA_URL') . '/' . $file->file_path
+                                : env('FILE_PATH') . 'assets/img/generic/image-file-2.png';
                                 @endphp
                                 <a href="javascript:void(0);"
                                     class="preview-file"
-                                    data-url="{{ env('FILE_PATH') . $file->file_path }}"
+                                    data-url="{{ env('MEDIA_URL') . '/' . $file->file_path }}"
                                     data-ext="{{ strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION)) }}">
                                     <img src="{{ $icon }}" style="height:40px;" alt="file">
                                 </a>

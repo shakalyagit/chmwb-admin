@@ -56,16 +56,21 @@ class NoticeController extends Controller
 
             // Handle File Upload
             if ($request->hasFile('document')) {
-                $destinationPath = 'assets/notices';
-                if (!File::exists($destinationPath)) {
-                    File::makeDirectory($destinationPath, 0755, true);
+
+                $destinationPath = env('MEDIA_PATH');
+
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
                 }
 
                 foreach ($request->file('document') as $file) {
                     if ($file->isValid()) {
+
                         $fileName = $notice->id . '_' . rand(11111111, 99999999) . '.' . $file->getClientOriginalExtension();
+
                         $file->move($destinationPath, $fileName);
-                        $filePath = 'assets/notices/' . $fileName;
+
+                        $filePath = 'media_notice_board/' . $fileName;
 
                         $media = new Media();
                         $media->ref_id = $notice->id;
@@ -136,15 +141,21 @@ class NoticeController extends Controller
                 ->first();
 
             if ($request->hasFile('document')) {
-                $destinationPath = 'assets/notices';
-                if (!File::exists($destinationPath)) {
-                    File::makeDirectory($destinationPath, 0755, true);
+
+                $destinationPath = env('MEDIA_PATH');
+
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
                 }
+
                 foreach ($request->file('document') as $file) {
                     if ($file->isValid()) {
+
                         $fileName = $notice->id . '_' . rand(11111111, 99999999) . '.' . $file->getClientOriginalExtension();
+
                         $file->move($destinationPath, $fileName);
-                        $filePath = 'assets/notices/' . $fileName;
+
+                        $filePath = 'media_notice_board/' . $fileName;
 
                         $media = new Media();
                         $media->ref_id = $notice->id;
