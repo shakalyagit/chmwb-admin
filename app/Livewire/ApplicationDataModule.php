@@ -152,20 +152,36 @@ class ApplicationDataModule extends Component
         $this->selectedApplication->status = $this->newStatus;
         $this->selectedApplication->status_reason = $this->status_reason;
         $this->selectedApplication->save();
+        //dd($this->selectedApplication->details->application_head_id);
         // Attempt to send status update email to applicant if email exists
         try {
             if($this->newStatus === 'approved') {
                 try {
+                    
                     $affected = DB::table('practioners')
                         ->where('registration_no', $this->selectedApplication->details->reg_number)
                         ->update([
                             'registration_date' => $this->selectedApplication->details->reg_date,
                             'name' => $this->selectedApplication->details->name,
-                            'address' => $this->selectedApplication->details->address,
+                            'address' => $this->selectedApplication->details->address.', '.$this->selectedApplication->details->district,
                             'fathers_name' => $this->selectedApplication->details->father_name,
+                            'pincode' => $this->selectedApplication->details->pincode,
                             'qualification' => $this->selectedApplication->details->qualification,
                         ]);
-
+                        
+                       $cancelReg= DB::table('application_reasons')
+                        ->where('application_head_id',$this->selectedApplication->details->application_head_id)
+                        ->first();
+                        if($cancelReg->reason_id=='cancel-reg'){
+                            DB::table('practioners')
+                        ->where('registration_no', $this->selectedApplication->details->reg_number)
+                        ->update([
+                            'status' => 'Inactive']);
+                        }
+                        
+                       
+                        
+                        
                     Log::info('practioners update done', ['affected_rows' => $affected]); // update() returns affected rows [web:11]
                 } catch (\Throwable $th) {
                     Log::error('practioners update failed', [
@@ -183,6 +199,7 @@ class ApplicationDataModule extends Component
                         Log::error('Failed to send approval email: ' . $e->getMessage());
                     }
                 }
+            
             }else{
                 $email = $this->selectedApplication->details->email ?? null;
                 if ($email) {
