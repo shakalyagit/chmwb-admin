@@ -16,6 +16,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationStatusUpdated;
 use App\Mail\ApplicationStatusApprovedEmail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ApplicationDataModule extends Component
@@ -148,21 +149,65 @@ class ApplicationDataModule extends Component
         }
 
         $this->validate(['newStatus' => 'required']);
-
         $this->selectedApplication->status = $this->newStatus;
         $this->selectedApplication->status_reason = $this->status_reason;
         $this->selectedApplication->save();
+        //dd($this->selectedApplication->details->application_head_id);
         // Attempt to send status update email to applicant if email exists
         try {
             if($this->newStatus === 'approved') {
+                try {
+                    
+                    $affected = DB::table('practioners')
+                        ->where('registration_no', $this->selectedApplication->details->reg_number)
+                        ->update([
+                            'registration_date' => $this->selectedApplication->details->reg_date,
+                            'name' => $this->selectedApplication->details->name,
+                            'address' => $this->selectedApplication->details->address.', '.$this->selectedApplication->details->district,
+                            'fathers_name' => $this->selectedApplication->details->father_name,
+                            'pincode' => $this->selectedApplication->details->pincode,
+                            'qualification' => $this->selectedApplication->details->qualification,
+                        ]);
+                        
+                       $cancelReg= DB::table('application_reasons')
+                        ->where('application_head_id',$this->selectedApplication->details->application_head_id)
+                        ->first();
+                        if($cancelReg->reason_id=='cancel-reg'){
+                            DB::table('practioners')
+                        ->where('registration_no', $this->selectedApplication->details->reg_number)
+                        ->update([
+                            'status' => 'Inactive']);
+                        }
+                        
+                       
+                        
+                        
+                    Log::info('practioners update done', ['affected_rows' => $affected]); // update() returns affected rows [web:11]
+                } catch (\Throwable $th) {
+                    Log::error('practioners update failed', [
+                        'message' => $th->getMessage(),
+                        'line_no' => $th->getLine(),
+                        'file' => $th->getFile(),
+                    ]);
+                }
+
                 $email = $this->selectedApplication->details->email ?? null;
                 if ($email) {
-                    Mail::to($email)->send(new ApplicationStatusApprovedEmail($this->selectedApplication));
+                    try{
+                        Mail::to($email)->send(new ApplicationStatusApprovedEmail($this->selectedApplication));
+                    }catch(\Exception $e){
+                        Log::error('Failed to send approval email: ' . $e->getMessage());
+                    }
                 }
+            
             }else{
                 $email = $this->selectedApplication->details->email ?? null;
                 if ($email) {
-                    Mail::to($email)->send(new ApplicationStatusUpdated($this->selectedApplication));
+                    try{
+                        Mail::to($email)->send(new ApplicationStatusUpdated($this->selectedApplication));
+                    }catch(\Exception $e){
+                        Log::error('Failed to send status update email: ' . $e->getMessage());
+                    }
                 }
             }
 
@@ -307,19 +352,37 @@ class ApplicationDataModule extends Component
         ]);
 
         try {
-            $path = $this->uploadFile->store('application_media', 'public');
-            $url = 'storage/' . $path;
+            $applicationId = $this->selectedApplication->id;
 
-            ApplicationMedia::create([
-                'application_head_id' => $this->selectedApplication->id,
-                'document_type' => $this->uploadDocumentType,
-                'original_name' => $this->uploadFile->getClientOriginalName(),
-                'ext' => $this->uploadFile->getClientOriginalExtension(),
-                'url' => $url,
-            ]);
+            $fileName = $this->uploadFile->getClientOriginalName();
+            $dirPath = "applications/{$applicationId}";
+            $storedRelativeToDiskRoot = "{$dirPath}/{$fileName}";
 
-            $this->reset('uploadFile', 'uploadDocumentType');
-            $this->selectedApplication = ApplicationHead::with(['details', 'reasons', 'media'])->find($this->selectedApplication->id);
+            // Create directory if it doesn't exist
+            if (!Storage::disk('common_applications')->exists($dirPath)) {
+                Storage::disk('common_applications')->makeDirectory($dirPath, 0755, true);
+            }
+
+            // Store the file
+            $this->uploadFile->storeAs($dirPath, $fileName, 'common_applications');
+
+            // Full public URL for the uploaded file
+            // $publicUrl = "https://app.chmwb.org/storage/app/public/{$storedRelativeToDiskRoot}";
+
+            ApplicationMedia::updateOrCreate(
+                [
+                    'application_head_id' => $applicationId,
+                    'document_type' => $this->uploadDocumentType,
+                ],
+                [
+                    'original_name' => $this->uploadFile->getClientOriginalName(),
+                    'ext' => $this->uploadFile->getClientOriginalExtension(),
+                    'url' => $storedRelativeToDiskRoot,
+                    'application_head_id' => $this->selectedApplication->id,
+                    'document_type' => $this->uploadDocumentType,
+                ]
+            );
+
             session()->flash('message', 'Document uploaded successfully.');
         } catch (\Exception $e) {
             session()->flash('error', 'Upload failed: ' . $e->getMessage());
