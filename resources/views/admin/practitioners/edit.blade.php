@@ -102,7 +102,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label">State</label>
-                        <select name="state" id="state" class="form-select">
+                        <!-- <select name="state" id="state" class="form-select">
                             <option value="">Select State</option>
                             @foreach($states as $state)
                             <option value="{{ $state->sid }}"
@@ -110,7 +110,8 @@
                                 {{ $state->name }}
                             </option>
                             @endforeach
-                        </select>
+                        </select> -->
+                        <input type="text" class="form-control" value="{{$practitioner->state}}" name="state" id="state">
                     </div>
                     @error('state')
                     <span class="text-danger">{{$message}}</span>
@@ -119,9 +120,10 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label">District</label>
-                        <select name="district" id="district" class="form-select">
+                        <!-- <select name="district" id="district" class="form-select">
                             <option value="">Select District</option>
-                        </select>
+                        </select> -->
+                        <input type="text" class="form-control" value="{{$practitioner->district}}" name="district" id="district">
                     </div>
                     @error('district')
                     <span class="text-danger">{{$message}}</span>
