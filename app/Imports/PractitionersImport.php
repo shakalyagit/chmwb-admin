@@ -3,6 +3,8 @@
 namespace App\Imports;
 
 use App\Models\Practioner;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -15,7 +17,8 @@ class PractitionersImport implements
     ToModel,
     WithHeadingRow,
     WithValidation,
-    WithEvents
+    WithEvents,
+    SkipsEmptyRows
 {
     public int $rowsProcessed = 0;
 
@@ -47,9 +50,7 @@ class PractitionersImport implements
                 'registration_no' => $row['registration_no'],
             ],
             [
-                'registration_date' => isset($row['registration_date'])
-                    ? Date::excelToDateTimeObject($row['registration_date'])->format('Y-m-d')
-                    : null,
+                'registration_date' => $this->convertDate($row['registration_date'] ?? null),
                 'name'            => $row['name'] ?? null,
                 'fathers_name'    => $row['fathers_name'] ?? null,
                 'address'         => $row['address'] ?? null,
@@ -66,17 +67,51 @@ class PractitionersImport implements
 
     public function prepareForValidation($data, $index)
     {
-        if ($index === 1) {
+        if ($index > 1) {
+        $hasAnyRawData = false;
+        foreach ($data as $key => $value) {
+            if ($value !== null && $value !== '') {
+                $hasAnyRawData = true;
+                \Log::info("Row $index has raw data", [
+                    'key' => $key,
+                    'value' => $value,
+                    'type' => gettype($value),
+                    'hex' => bin2hex((string) $value),
+                ]);
+            }
+        }
+        if (!$hasAnyRawData) {
+            \Log::info("Row $index is completely null/empty — will be skipped");
+        }
+    }
 
-            $excelHeaders = array_keys($data);
+        // Aggressively clean a cell value — handles normal spaces, non-breaking
+        // spaces (\xA0), zero-width chars, and hidden HTML from Excel.
+        $clean = function ($value): string {
+            $str = strip_tags((string) ($value ?? ''));
+            // Remove non-breaking spaces and other unicode whitespace
+            $str = preg_replace('/[\x00-\x1F\x7F\xA0\x{200B}-\x{200D}\x{FEFF}]/u', '', $str);
+            return trim($str);
+        };
 
-            $missingHeaders = array_diff($this->requiredHeaders, $excelHeaders);
+        $registrationNo = $clean($data['registration_no'] ?? '');
 
-            if (!empty($missingHeaders)) {
-                throw new \Exception('Please upload another excel file.');
+        // Check if any column other than registration_no has real data
+        $hasOtherData = false;
+        foreach ($data as $key => $value) {
+            if ($key === 'registration_no') continue;
+            if ($clean($value) !== '') {
+                $hasOtherData = true;
+                break;
             }
         }
 
+        // Completely empty row — skip silently
+        if ($registrationNo === '' && !$hasOtherData) {
+            return [];
+        }
+
+        // Has other data but no registration_no — let validation report it
         return $data;
     }
 
@@ -85,6 +120,47 @@ class PractitionersImport implements
         return [
             '*.registration_no' => ['required'],
         ];
+    }
+
+    public function customValidationMessages(): array
+    {
+        return [
+            '*.registration_no.required' => 'Registration No is missing.',
+        ];
+    }
+
+    private function convertDate($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            return Carbon::instance(Date::excelToDateTimeObject($value))->format('Y-m-d');
+        }
+
+        $value = trim((string) $value);
+
+        $formats = [
+            'Y-m-d',
+            'Y/m/d',
+            'Y.m.d',
+            'd/m/Y',
+            'd-m-Y',
+            'd.m.Y',
+            'd M Y',
+            'd F Y',
+        ];
+
+        foreach ($formats as $format) {
+            try {
+                return Carbon::createFromFormat($format, $value)->format('Y-m-d');
+            } catch (\Exception $e) {
+                // continue trying next format
+            }
+        }
+
+        return null;
     }
 
     public function registerEvents(): array

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\PractitionerExport;
 use App\Exports\SamplePractitionerExcel;
 use App\Imports\PractitionersImport;
+use Maatwebsite\Excel\Validators\ValidationException as ExcelValidationException;
+use Illuminate\Validation\ValidationException as IlluminateValidationException;
 use App\Models\Practioner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -80,6 +82,49 @@ class PractitionerController extends Controller
             Excel::import(new PractitionersImport, $request->file('practitioner_file'));
 
             return back()->with('success', 'Practitioners imported successfully!');
+        } catch (ExcelValidationException $e) {
+            // Format validation failures into readable row-based messages
+            $failures = $e->failures();
+            $messages = [];
+
+            foreach ($failures as $failure) {
+                $row = $failure->row();
+                $attribute = $failure->attribute();
+                $errors = $failure->errors();
+                $messages[] = 'Row ' . $row . ': ' . implode(', ', $errors);
+            }
+
+            return back()->withErrors([
+                'practitioner_file' => implode(' | ', $messages),
+            ]);
+        } catch (IlluminateValidationException $e) {
+            // Handle validation exceptions that may contain keys like "103.registration_no"
+            $messages = [];
+
+            $errors = $e->validator->errors()->messages();
+
+            foreach ($errors as $key => $msgs) {
+                $parts = explode('.', $key, 2);
+                if (count($parts) === 2 && is_numeric($parts[0])) {
+                    $row = $parts[0];
+                    $attribute = $parts[1];
+                } else {
+                    $row = null;
+                    $attribute = $key;
+                }
+
+                foreach ($msgs as $m) {
+                    if ($row) {
+                        $messages[] = 'Row ' . $row . ': ' . $attribute . ' - ' . $m;
+                    } else {
+                        $messages[] = $m;
+                    }
+                }
+            }
+
+            return back()->withErrors([
+                'practitioner_file' => implode(' | ', $messages),
+            ]);
         } catch (\Exception $e) {
             return back()->withErrors([
                 'practitioner_file' => $e->getMessage()
