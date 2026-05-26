@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MedicianeMst;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PharmacistController;
 use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
@@ -69,6 +70,19 @@ Route::group(["middleware" => 'auth'], function () {
     Route::post('/update-notice', [NoticeController::class, 'update_notice'])->name('update_notice');
     Route::post('/notice-filter', [NoticeController::class, 'notice_filter'])->name('notice_filter');
     Route::get('/notice-file-delete/{id}', [NoticeController::class, 'notice_file_delete'])->name('notice_file_delete');
+
+    //Pharmacists route
+    Route::get('/pharmacist_list', [PharmacistController::class, 'pharmacist_list'])->name('pharmacist_list');
+    Route::get('/add_pharmacist', [PharmacistController::class, 'add_pharmacist'])->name('add_pharmacist');
+    Route::post('/add_pharmacist_action', [PharmacistController::class, 'add_pharmacist_action'])->name('add_pharmacist_action');
+    Route::get('/pharmacists/filter', [PharmacistController::class, 'pharmacist_filter'])->name('pharmacist_filter');
+    Route::get('/export-pharmacists', [PharmacistController::class, 'export_pharmacists'])->name('export_pharmacists');
+    Route::post('/upload_pharmacist_excel', [PharmacistController::class, 'upload_pharmacist_excel'])->name('upload_pharmacist_excel');
+    Route::get('/download_sample_pharmacist_excel', [PharmacistController::class, 'download_sample_excel'])->name('download_sample_pharmacist_excel');
+    Route::get('/edit_pharmacist/{id}', [PharmacistController::class, 'edit_pharmacist'])->name('edit_pharmacist');
+    Route::post('/update_pharmacist/{id}', [PharmacistController::class, 'update_pharmacist'])->name('update_pharmacist');
+    Route::get('/pharmacists/filter', [PharmacistController::class, 'pharmacist_filter'])->name('pharmacist_filter');
+
 });
 
 Route::group(['middleware' => 'guest'], function () {
